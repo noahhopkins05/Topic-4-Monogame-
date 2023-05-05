@@ -9,7 +9,7 @@ namespace Topic_4_Monogame_2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        Texture2D bombTexture;
+        Texture2D bombTexture, explosionTexture;
         SoundEffect explosion;
         SpriteFont timeFont;
         MouseState mouseState;
@@ -37,6 +37,7 @@ namespace Topic_4_Monogame_2
             bombTexture = Content.Load<Texture2D>("bomb (1)");
             timeFont = Content.Load<SpriteFont>("TimeFont");
             explosion = Content.Load<SoundEffect>("explosion");
+            explosionTexture = Content.Load<Texture2D>("explosiontransparent");
 
         }
 
@@ -47,9 +48,13 @@ namespace Topic_4_Monogame_2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            seconds = (float)gameTime.TotalGameTime.TotalSeconds;
-            if (seconds > 10) // Takes a timestamp every 10 seconds.
+            seconds = (float)gameTime.TotalGameTime.TotalSeconds - startTime;
+            secondsCountDown = 1 - seconds;
+
+            if (secondsCountDown < -1)
+            {
                 startTime = (float)gameTime.TotalGameTime.TotalSeconds;
+            }
 
 
             base.Update(gameTime);
@@ -62,8 +67,11 @@ namespace Topic_4_Monogame_2
             _spriteBatch.Begin();
 
             _spriteBatch.Draw(bombTexture, new Rectangle(50, 50, 700, 400), Color.White);
-            _spriteBatch.DrawString(timeFont, seconds.ToString("00.0"), new Vector2(270, 200), Color.Black); 
-
+            _spriteBatch.DrawString(timeFont, secondsCountDown.ToString("00.0"), new Vector2(270, 200), Color.Black);
+            if (secondsCountDown < 0)
+            {
+                _spriteBatch.Draw(explosionTexture, new Rectangle(100, 45, 600, 500), Color.White);
+            }
 
             _spriteBatch.End();
 
