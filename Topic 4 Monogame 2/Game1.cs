@@ -51,12 +51,10 @@ namespace Topic_4_Monogame_2
             seconds = (float)gameTime.TotalGameTime.TotalSeconds - startTime;
             secondsCountDown = 1 - seconds;
 
-            if (secondsCountDown < -1)
-            {
-                startTime = (float)gameTime.TotalGameTime.TotalSeconds;
-            }
-
-
+            if (secondsCountDown < 0.02 && secondsCountDown > 0)
+                explosion.Play();
+            if (secondsCountDown <-9)
+                Exit();
             base.Update(gameTime);
         }
 
