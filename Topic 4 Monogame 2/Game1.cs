@@ -49,7 +49,7 @@ namespace Topic_4_Monogame_2
                 Exit();
 
             seconds = (float)gameTime.TotalGameTime.TotalSeconds - startTime;
-            secondsCountDown = 1 - seconds;
+            secondsCountDown = 15 - seconds;
 
             if (secondsCountDown < 0.02 && secondsCountDown > 0)
                 explosion.Play();
